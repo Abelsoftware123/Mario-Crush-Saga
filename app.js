@@ -179,3 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
         moveIntoSquareBelow();
     }, 100);
 });
+
