@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+Document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid');
     const scoreDisplay = document.getElementById('score');
     const width = 8;
@@ -48,7 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 squareSelected.style.backgroundImage = colorBeingReplaced;
                 
                 // Immediately check for matches after a valid move
-                checkAndClearMatches();
+                const matchFound = checkAndClearMatches();
+                
+                // If no match is found, swap back the candies
+                if (!matchFound) {
+                    setTimeout(() => {
+                        this.style.backgroundImage = colorBeingReplaced;
+                        squareSelected.style.backgroundImage = colorBeingDragged;
+                    }, 500); // Wait a bit before swapping back
+                }
                 
             } else {
                 // Invalid move, reset selection
@@ -63,32 +71,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
+    
+    // Check and clear matches, returns true if a match was found
     function checkAndClearMatches() {
-        checkRowForFour();
-        checkColumnForFour();
-        checkRowForThree();
-        checkColumnForThree();
+        let matchFound = false;
+        if (checkRowForFour()) matchFound = true;
+        if (checkColumnForFour()) matchFound = true;
+        if (checkRowForThree()) matchFound = true;
+        if (checkColumnForThree()) matchFound = true;
+        return matchFound;
     }
 
     //drop candies once some have been cleared
     function moveIntoSquareBelow() {
-        for (i = 0; i < 55; i++) {
+        for (i = 0; i <= 55; i++) { // Loop tot de 5e rij (index 55)
             if (squares[i + width].style.backgroundImage === '') {
                 squares[i + width].style.backgroundImage = squares[i].style.backgroundImage;
                 squares[i].style.backgroundImage = '';
-                const firstRow = [0, 1, 2, 3, 4, 5, 6, 7];
-                const isFirstRow = firstRow.includes(i);
-                if (isFirstRow && (squares[i].style.backgroundImage === '')) {
-                    let randomColor = Math.floor(Math.random() * candyColors.length);
-                    squares[i].style.backgroundImage = candyColors[randomColor];
-                }
+            }
+        }
+        // Vul de bovenste rij met nieuwe snoepjes
+        for (let i = 0; i < width; i++) {
+            if (squares[i].style.backgroundImage === '') {
+                let randomColor = Math.floor(Math.random() * candyColors.length);
+                squares[i].style.backgroundImage = candyColors[randomColor];
             }
         }
     }
-
-    // Checking for Matches (same as original code)
+    
+    // De check-functies zijn nu aangepast om true/false terug te geven
     function checkRowForFour() {
+        let matchFound = false;
         for (i = 0; i < 60; i++) {
             let rowOfFour = [i, i + 1, i + 2, i + 3];
             let decidedColor = squares[i].style.backgroundImage;
@@ -102,11 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowOfFour.forEach(index => {
                     squares[index].style.backgroundImage = '';
                 });
+                matchFound = true;
             }
         }
+        return matchFound;
     }
 
     function checkColumnForFour() {
+        let matchFound = false;
         for (i = 0; i < 39; i++) {
             let columnOfFour = [i, i + width, i + width * 2, i + width * 3];
             let decidedColor = squares[i].style.backgroundImage;
@@ -118,11 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 columnOfFour.forEach(index => {
                     squares[index].style.backgroundImage = '';
                 });
+                matchFound = true;
             }
         }
+        return matchFound;
     }
 
     function checkRowForThree() {
+        let matchFound = false;
         for (i = 0; i < 61; i++) {
             let rowOfThree = [i, i + 1, i + 2];
             let decidedColor = squares[i].style.backgroundImage;
@@ -136,11 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowOfThree.forEach(index => {
                     squares[index].style.backgroundImage = '';
                 });
+                matchFound = true;
             }
         }
+        return matchFound;
     }
 
     function checkColumnForThree() {
+        let matchFound = false;
         for (i = 0; i < 47; i++) {
             let columnOfThree = [i, i + width, i + width * 2];
             let decidedColor = squares[i].style.backgroundImage;
@@ -152,12 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 columnOfThree.forEach(index => {
                     squares[index].style.backgroundImage = '';
                 });
+                matchFound = true;
             }
         }
+        return matchFound;
     }
 
     window.setInterval(function() {
-        checkAndClearMatches();
         moveIntoSquareBelow();
+        checkAndClearMatches();
     }, 100);
 });
