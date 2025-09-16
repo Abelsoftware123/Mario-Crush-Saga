@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let squareSelected = null;
 
     const candyColors = [
-        'url(images/browser.png)',
-        'url(images/coopa.png)',
-        'url(images/fireflower.png)',
-        'url(images/greenmush.png)',
-        'url(images/mario.png)',
-        'url(images/mushroom.png)'
+        'url(images/1000007031.png)', // Dit is Bowser
+        'url(images/1000007030.png)', // Dit is Koopa Troopa
+        'url(images/1000007027.png)', // Dit is Fire Flower
+        'url(images/1000007029.png)', // Dit is Green Mushroom
+        'url(images/1000007032.png)', // Dit is Mario
+        'url(images/1000007028.png)'  // Dit is Mushroom
     ];
 
     function createBoard() {
