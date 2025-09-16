@@ -1,5 +1,5 @@
 body {
-    background-image: url("images/candy-crush-background-2.png");
+    background-image: url("images/1-92d3a55b.png");
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,8 +7,6 @@ body {
     margin: 0;
     flex-direction: column;
     gap: 20px;
-}
-
 }
 
 .grid {
@@ -56,4 +54,3 @@ h1 {
     color: #85796b;
     padding: 15px;
 }
-
