@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let squareSelected = null;
 
     const candyColors = [
-        'url(images/1000006994.png)',
-        'url(images/1000006995.png)',
-        'url(images/1000006992.png)',
-        'url(images/1000006993.png)',
-        'url(images/1000006991.png)',
-        'url(images/1000006990.png)'
+        'url(images/red-candy.png)',
+        'url(images/yellow-candy.png)',
+        'url(images/orange-candy.png)',
+        'url(images/purple-candy.png)',
+        'url(images/green-candy.png)',
+        'url(images/blue-candy.png)'
     ];
 
     function createBoard() {
@@ -169,3 +169,4 @@ document.addEventListener('DOMContentLoaded', () => {
         moveIntoSquareBelow();
     }, 100);
 });
+
