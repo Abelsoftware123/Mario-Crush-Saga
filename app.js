@@ -1,4 +1,4 @@
-Document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid');
     const scoreDisplay = document.getElementById('score');
     const width = 8;
@@ -6,16 +6,17 @@ Document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let squareSelected = null;
 
+    // Aangepaste paden naar de geüploade bestanden
     const candyColors = [
-        'url(images/red-candy.png)',
-        'url(images/yellow-candy.png)',
-        'url(images/orange-candy.png)',
-        'url(images/purple-candy.png)',
-        'url(images/green-candy.png)',
-        'url(images/blue-candy.png)'
+        'url(images/1000006994.png)', // Rood
+        'url(images/1000006995.png)', // Geel
+        'url(images/1000006992.png)', // Oranje
+        'url(images/1000006993.png)', // Paars
+        'url(images/1000006991.png)', // Groen
+        'url(images/1000006990.png)'  // Blauw
     ];
 
-    //create your board
+    // create your board
     function createBoard() {
         for (let i = 0; i < width * width; i++) {
             const square = document.createElement('div');
@@ -34,7 +35,7 @@ Document.addEventListener('DOMContentLoaded', () => {
     function touchStart() {
         if (!squareSelected) {
             squareSelected = this;
-            squareSelected.classList.add('selected'); // Optional: Add visual feedback for selected square
+            this.classList.add('selected');
         } else {
             const squareIdBeingDragged = parseInt(squareSelected.id);
             const squareIdBeingReplaced = parseInt(this.id);
@@ -55,20 +56,13 @@ Document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         this.style.backgroundImage = colorBeingReplaced;
                         squareSelected.style.backgroundImage = colorBeingDragged;
-                    }, 500); // Wait a bit before swapping back
+                    }, 500);
                 }
-                
-            } else {
-                // Invalid move, reset selection
-                squareSelected.classList.remove('selected');
-                squareSelected = null;
             }
-
-            // After a move (valid or invalid), reset selection
-            if (squareSelected) {
-                squareSelected.classList.remove('selected');
-                squareSelected = null;
-            }
+            
+            // Reset selection after a move
+            squareSelected.classList.remove('selected');
+            squareSelected = null;
         }
     }
     
@@ -82,9 +76,9 @@ Document.addEventListener('DOMContentLoaded', () => {
         return matchFound;
     }
 
-    //drop candies once some have been cleared
+    // drop candies once some have been cleared
     function moveIntoSquareBelow() {
-        for (i = 0; i <= 55; i++) { // Loop tot de 5e rij (index 55)
+        for (let i = 0; i < (width * width - width); i++) {
             if (squares[i + width].style.backgroundImage === '') {
                 squares[i + width].style.backgroundImage = squares[i].style.backgroundImage;
                 squares[i].style.backgroundImage = '';
@@ -102,7 +96,7 @@ Document.addEventListener('DOMContentLoaded', () => {
     // De check-functies zijn nu aangepast om true/false terug te geven
     function checkRowForFour() {
         let matchFound = false;
-        for (i = 0; i < 60; i++) {
+        for (let i = 0; i < 60; i++) {
             let rowOfFour = [i, i + 1, i + 2, i + 3];
             let decidedColor = squares[i].style.backgroundImage;
             const isBlank = squares[i].style.backgroundImage === '';
@@ -123,7 +117,7 @@ Document.addEventListener('DOMContentLoaded', () => {
 
     function checkColumnForFour() {
         let matchFound = false;
-        for (i = 0; i < 39; i++) {
+        for (let i = 0; i < 39; i++) {
             let columnOfFour = [i, i + width, i + width * 2, i + width * 3];
             let decidedColor = squares[i].style.backgroundImage;
             const isBlank = squares[i].style.backgroundImage === '';
@@ -142,11 +136,11 @@ Document.addEventListener('DOMContentLoaded', () => {
 
     function checkRowForThree() {
         let matchFound = false;
-        for (i = 0; i < 61; i++) {
+        for (let i = 0; i < 62; i++) {
             let rowOfThree = [i, i + 1, i + 2];
             let decidedColor = squares[i].style.backgroundImage;
             const isBlank = squares[i].style.backgroundImage === '';
-            const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55];
+            const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63];
             if (notValid.includes(i)) continue;
 
             if (rowOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
@@ -163,7 +157,7 @@ Document.addEventListener('DOMContentLoaded', () => {
 
     function checkColumnForThree() {
         let matchFound = false;
-        for (i = 0; i < 47; i++) {
+        for (let i = 0; i < 48; i++) {
             let columnOfThree = [i, i + width, i + width * 2];
             let decidedColor = squares[i].style.backgroundImage;
             const isBlank = squares[i].style.backgroundImage === '';
@@ -180,8 +174,8 @@ Document.addEventListener('DOMContentLoaded', () => {
         return matchFound;
     }
 
-    window.setInterval(function() {
-        moveIntoSquareBelow();
+    window.setInterval(() => {
         checkAndClearMatches();
+        moveIntoSquareBelow();
     }, 100);
 });
