@@ -127,4 +127,45 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkRowForThree() {
         let matchFound = false;
         for (let i = 0; i < 62; i++) {
-            let rowOfThree = 
+            let rowOfThree = [i, i + 1, i + 2];
+            let decidedColor = squares[i].style.backgroundImage;
+            const isBlank = squares[i].style.backgroundImage === '';
+            const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63];
+            if (notValid.includes(i)) continue;
+
+            if (rowOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
+                score += 3;
+                scoreDisplay.innerHTML = score;
+                rowOfThree.forEach(index => {
+                    squares[index].style.backgroundImage = '';
+                });
+                matchFound = true;
+            }
+        }
+        return matchFound;
+    }
+
+    function checkColumnForThree() {
+        let matchFound = false;
+        for (let i = 0; i < 48; i++) {
+            let columnOfThree = [i, i + width, i + width * 2];
+            let decidedColor = squares[i].style.backgroundImage;
+            const isBlank = squares[i].style.backgroundImage === '';
+
+            if (columnOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
+                score += 3;
+                scoreDisplay.innerHTML = score;
+                columnOfThree.forEach(index => {
+                    squares[index].style.backgroundImage = '';
+                });
+                matchFound = true;
+            }
+        }
+        return matchFound;
+    }
+
+    window.setInterval(() => {
+        checkAndClearMatches();
+        moveIntoSquareBelow();
+    }, 100);
+});
